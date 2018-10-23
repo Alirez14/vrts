@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/alirez/Desktop/VRTS/socket pr/Befehle.h
+sys/types.h
+-
+sys/socket.h
+-
+netinet/in.h
+-
+arpa/inet.h
+-
+unistd.h
+-
+stdlib.h
+-
+stdio.h
+-
+string
+-
+iostream
+-
+fstream
+-
+sys/stat.h
+-
+dirent.h
+-
+
+/home/alirez/Desktop/VRTS/socket pr/main.cpp
+Befehle.h
+/home/alirez/Desktop/VRTS/socket pr/Befehle.h
+

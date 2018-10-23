@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/socket_pr.dir/main.cpp.o  -o socket_pr 
