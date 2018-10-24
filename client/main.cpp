@@ -86,17 +86,18 @@ int main (int argc, char **argv) {
 //label:
         //memset(&address, 0, sizeof(address));
 
-        size = recv(create_socket, buffer, BUF - 1, 0);
-        if (size > 0) {
-            buffer[size] = '\0';
-            printf("%s", buffer);
-        }
+
     } else {
         perror("Connect error - no server available");
         return EXIT_FAILURE;
     }
 
     do {
+    	        size = recv(create_socket, buffer, BUF - 1, 0);
+        if (size > 0) {
+            buffer[size] = '\0';
+            printf("%s", buffer);
+        }
         char message[100];
         scanf("%s", message);
         memset(&buffer, 0, BUF);
