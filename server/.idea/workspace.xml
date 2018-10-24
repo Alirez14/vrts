@@ -34,7 +34,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="91cb5cd8-b040-4998-8d31-6144639694a9" name="Default" comment="server loop ok">
-      <change beforePath="$PROJECT_DIR$/functions.h" beforeDir="false" afterPath="$PROJECT_DIR$/functions.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Mails/rtgtrtg6zhbrthzu756hzhgrtg./Email1.txt" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -62,11 +62,11 @@
     <session id="1980739914">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="25" />
+          <entry key="project.closed" value="26" />
           <entry key="project.open.time.0" value="18" />
-          <entry key="project.open.time.4" value="2" />
+          <entry key="project.open.time.4" value="3" />
           <entry key="project.open.time.5" value="5" />
-          <entry key="project.opened" value="25" />
+          <entry key="project.opened" value="26" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -115,7 +115,7 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="108">
@@ -127,11 +127,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/functions.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="615">
-              <caret line="41" column="31" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
+            <state relative-caret-position="225">
+              <caret line="118" column="12" lean-forward="true" selection-start-line="118" selection-start-column="12" selection-end-line="118" selection-end-column="12" />
               <folding>
                 <element signature="e#0#2#0" />
                 <element signature="e#99#121#0" expanded="true" />
@@ -178,8 +178,8 @@
   <component name="ProjectFrameBounds" extendedState="4">
     <option name="x" value="683" />
     <option name="y" value="27" />
-    <option name="width" value="917" />
-    <option name="height" value="873" />
+    <option name="width" value="907" />
+    <option name="height" value="1053" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -187,6 +187,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -198,7 +199,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -275,6 +275,7 @@
       <workItem from="1540399569660" duration="1546000" />
       <workItem from="1540401264614" duration="1489000" />
       <workItem from="1540404774020" duration="1000" />
+      <workItem from="1540408381106" duration="931000" />
     </task>
     <task id="LOCAL-00001" summary="server loop ok">
       <created>1540401899105</created>
@@ -287,16 +288,14 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32433000" />
+    <option name="totallyTimeSpent" value="33364000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="683" y="27" width="917" height="873" extended-state="4" />
-    <editor active="true" />
+    <frame x="683" y="27" width="907" height="1053" extended-state="4" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27439725" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28106853" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="TeamCity" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.23193096" />
@@ -308,13 +307,14 @@
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Messages" order="11" visible="true" weight="0.21513514" />
+      <window_info anchor="bottom" id="Messages" order="11" visible="true" weight="0.21451788" />
       <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
-      <window_info anchor="right" id="LuaJ" />
+      <window_info anchor="bottom" id="TeamCity" order="13" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Database" order="3" weight="0.32982844" />
+      <window_info anchor="right" id="LuaJ" order="4" />
     </layout>
     <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.34255672" />
@@ -387,23 +387,23 @@
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/functions.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="41" column="31" selection-start-line="41" selection-start-column="31" selection-end-line="41" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#2#0" />
-            <element signature="e#99#121#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="106" column="49" selection-start-line="106" selection-start-column="49" selection-end-line="106" selection-end-column="49" />
           <folding>
             <element signature="e#17#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/functions.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="118" column="12" lean-forward="true" selection-start-line="118" selection-start-column="12" selection-end-line="118" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#2#0" />
+            <element signature="e#99#121#0" expanded="true" />
           </folding>
         </state>
       </provider>
