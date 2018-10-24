@@ -11,9 +11,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="91cb5cd8-b040-4998-8d31-6144639694a9" name="Default" comment="send ok 2">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="91cb5cd8-b040-4998-8d31-6144639694a9" name="Default" comment="send ok 3" />
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,7 +38,7 @@
     <session id="1980739914">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="25" />
+          <entry key="project.closed" value="26" />
           <entry key="project.open.time.0" value="19" />
           <entry key="project.open.time.4" value="2" />
           <entry key="project.open.time.5" value="5" />
@@ -64,13 +62,13 @@
         <counts>
           <entry key="cpp" value="1187" />
           <entry key="h" value="18" />
-          <entry key="txt" value="23" />
+          <entry key="txt" value="24" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="ObjectiveC" value="1205" />
-          <entry key="PLAIN_TEXT" value="23" />
+          <entry key="PLAIN_TEXT" value="24" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.cidr.testingFrameworks.usages" />
@@ -99,8 +97,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/functions.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="69" column="33" lean-forward="true" selection-start-line="69" selection-start-column="33" selection-end-line="69" selection-end-column="33" />
+            <state relative-caret-position="765">
+              <caret line="73" column="13" lean-forward="true" selection-start-line="73" selection-start-column="13" selection-end-line="73" selection-end-column="13" />
               <folding>
                 <element signature="e#0#2#0" />
                 <element signature="e#99#121#0" expanded="true" />
@@ -243,7 +241,7 @@
       <workItem from="1540287488688" duration="1630000" />
       <workItem from="1540399569660" duration="1546000" />
       <workItem from="1540401264614" duration="1489000" />
-      <workItem from="1540403706886" duration="899000" />
+      <workItem from="1540403706886" duration="982000" />
     </task>
     <task id="LOCAL-00001" summary="server loop ok">
       <created>1540401899105</created>
@@ -266,15 +264,21 @@
       <option name="project" value="LOCAL" />
       <updated>1540404521577</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="send ok 3">
+      <created>1540404756829</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1540404756829</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33331000" />
+    <option name="totallyTimeSpent" value="33414000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="993" y="27" width="917" height="1053" extended-state="4" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27439725" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -330,7 +334,8 @@
     <MESSAGE value="server loop ok" />
     <MESSAGE value="send ok" />
     <MESSAGE value="send ok 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="send ok 2" />
+    <MESSAGE value="send ok 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="send ok 3" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -385,8 +390,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/functions.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="69" column="33" lean-forward="true" selection-start-line="69" selection-start-column="33" selection-end-line="69" selection-end-column="33" />
+        <state relative-caret-position="765">
+          <caret line="73" column="13" lean-forward="true" selection-start-line="73" selection-start-column="13" selection-end-line="73" selection-end-column="13" />
           <folding>
             <element signature="e#0#2#0" />
             <element signature="e#99#121#0" expanded="true" />
