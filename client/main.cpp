@@ -66,6 +66,8 @@ int main (int argc, char **argv) {
     struct sockaddr_in address;
     ssize_t size;
 
+
+
     if (argc < 2) {
         printf("Usage: %s ServerAdresse\n", argv[0]);
         exit(EXIT_FAILURE);
@@ -75,6 +77,7 @@ int main (int argc, char **argv) {
         perror("Socket error");
         return EXIT_FAILURE;
     }
+
 
     memset(&address, 0, sizeof(address));
     address.sin_family = AF_INET;

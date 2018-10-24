@@ -83,7 +83,7 @@ string getEmpf(char buffer[BUF])
     stringstream buff(buffer);
     string emp[8];
 
-    for (int i = 0; i < sizeof(emp); ++i)
+    for (int i = 0; 2 < sizeof(emp); ++i)
     {
         buff >> emp[i];
     }
