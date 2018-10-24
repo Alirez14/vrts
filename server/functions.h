@@ -42,7 +42,7 @@ void Save(string sname, char message[BUF])
         string email = "Email";
 
         num = to_string(emailnum);
-        Filename.append("/home/alirez/Desktop/VRTS/Mails/" + sname);
+        Filename.append("../../Mails/" + sname);
 
         folder = Filename;
         struct stat st;
@@ -128,7 +128,7 @@ string List(string name)
 {
     int countemail;
     string emptymail = "No Email\n";
-    string path = "/home/alirez/Desktop/VRTS/Mails/";
+    string path = "../../Mails/";
     string username = name;
     string message_read;
     string output;
@@ -191,7 +191,7 @@ string read(string name, string emailnum)
 
 
     num = emailnum;
-    Filename.append("/home/alirez/Desktop/VRTS/Mails/" + name);
+    Filename.append("../../Mails/" + name);
 
     folder = Filename;
     struct stat st;
@@ -243,7 +243,7 @@ string del(string name, string emailnum)
     string::size_type sz;
     int mailnum = stoi(emailnum, &sz);
 
-    Filename.append("/home/alirez/Desktop/VRTS/Mails/" + name);
+    Filename.append("../../Mails/" + name);
 
     folder = Filename;
     num = emailnum;
@@ -265,10 +265,10 @@ string del(string name, string emailnum)
         for (int i = mailnum; i <= countemails; ++i )
         {
             string number = to_string(i + 1);
-            string File = "/home/alirez/Desktop/VRTS/Mails/" + name + "/Email" + number + ".txt";
+            string File = "../../Mails/" + name + "/Email" + number + ".txt";
 
             string newnum = to_string(i);
-            string newfile = "/home/alirez/Desktop/VRTS/Mails/" + name + "/Email" + newnum + ".txt";
+            string newfile = "../../Mails/" + name + "/Email" + newnum + ".txt";
 
             int newname = rename(File.c_str(), newfile.c_str());
             if(rename == 0)

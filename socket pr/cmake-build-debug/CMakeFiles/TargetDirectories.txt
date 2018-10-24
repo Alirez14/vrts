@@ -1,3 +1,0 @@
-/home/alirez/Desktop/VRTS/socket pr/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/alirez/Desktop/VRTS/socket pr/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/alirez/Desktop/VRTS/socket pr/cmake-build-debug/CMakeFiles/socket_pr.dir
