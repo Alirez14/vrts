@@ -83,11 +83,11 @@ string getEmpf(char buffer[BUF])
     stringstream buff(buffer);
     string emp[8];
 
-<<<<<<< HEAD
-    for (int i = 0; i< 2; ++i)
-=======
+
+
+
     for (int i = 0; i < 2; ++i)
->>>>>>> 2af54e14bc87d2d02976df0289f391a35baa600c
+
     {
         buff >> emp[i];
     }
@@ -99,7 +99,7 @@ string getEmpf(char buffer[BUF])
 int CountEmails(string name)
 {
     int countemail = 0;
-    string path = "/home/alirez/Desktop/VRTS/Mails/";
+    string path = "../../Mails/";
     string username = name;
     string message_read;
     string output;
