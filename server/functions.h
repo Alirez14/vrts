@@ -83,11 +83,7 @@ string getEmpf(char buffer[BUF])
     stringstream buff(buffer);
     string emp[8];
 
-
-
-
     for (int i = 0; i < 2; ++i)
-
     {
         buff >> emp[i];
     }
@@ -103,13 +99,13 @@ int CountEmails(string name)
     string username = name;
     string message_read;
     string output;
+    int emailnum = 1;
     //WHILE EXISTS TEXT FILE, COUNT THE MAILS
     while(true)
     {
         string Filename;
         fstream File;
         string result[100];
-        static int emailnum = 1;
         string num = to_string(emailnum);
 
         Filename.append(path + username + "/" + "Email" + num + ".txt");
