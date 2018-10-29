@@ -65,6 +65,9 @@ int main (int argc, char **argv) {
     string sender, subject, to, message;
     struct sockaddr_in address;
     ssize_t size;
+    argc=2;
+    argv[0]="./client";
+    argv[1]="localhost";
 
 
 

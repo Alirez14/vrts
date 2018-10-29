@@ -62,7 +62,7 @@ int main ()
             send(new_socket, buffer, strlen(buffer),0);
             memset(&buffer, 0, BUF);*/
         }
-        while (buffer[0] != '0')
+        while (true)
         {
 
             memset(&buffer, 0, BUF);
@@ -240,24 +240,27 @@ int main ()
                         string message = "QUIT\n";
                         strcpy(buffer, message.c_str());
                         send(new_socket, buffer, strlen(buffer), 0);
-                        memset(&buffer, 0, BUF);
+
+
                         break;
                     }
 
                 }
-                continue;
-            }
 
+            }
+            if (buffer=="QUIT\n")
+            {
+                printf("Client closed remote socket\n");
+                break;
+            }
 
             else if (size == 0)
             {
                 printf("Client closed remote socket\n");
                 break;
             }
-            else
-            {
-                perror("recv error");
-                return EXIT_FAILURE;
+            else{
+                continue;
             }
         }
         close (new_socket);
