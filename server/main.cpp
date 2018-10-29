@@ -64,7 +64,7 @@ int main ()
         }
         while (true)
         {
-
+sleep(1);
             memset(&buffer, 0, BUF);
             strcpy(buffer,"Welcome to myserver, Please enter your command:\n"
                           "choose the task: \n"
@@ -264,6 +264,7 @@ int main ()
             }
         }
         close (new_socket);
+        continue;
     }
     close (create_socket);
     return EXIT_SUCCESS;
