@@ -24,7 +24,7 @@
 #include <string>
 
 #define BUF 1024
-#define PORT 6543
+#define PORT 6544
 
 using namespace std;
 

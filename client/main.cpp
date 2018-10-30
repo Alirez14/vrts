@@ -12,7 +12,7 @@
 #include <iostream>
 #include <vector>
 #define BUF 1024
-#define PORT 6543
+#define PORT 6544
 /*
 ******************* CLIENT *******************
 */
@@ -98,18 +98,27 @@ int main (int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
-    do {
-    	        size = recv(create_socket, buffer, BUF - 1, 0);
+    while (strcmp(buffer, "QUIT\n") != 0) {
+        sleep(0.5);
+        cout << buffer;
+        size = recv(create_socket, buffer, BUF - 1, 0);
         if (size > 0) {
             buffer[size] = '\0';
-            printf("%s", buffer);
+            cout << buffer;
         }
         char message[100];
-        scanf("%s", message);
+        cin >> message;
         memset(&buffer, 0, BUF);
         strcpy(buffer, message);
-        send(create_socket, buffer, strlen(buffer), 0);
-        //memset(&buffer, 0, BUF);
+        sleep(0.5);
+        if (buffer[0] != '\0')
+        {
+            send(create_socket, buffer, strlen(buffer), 0);
+        }
+        else{
+            continue;
+        }
+        memset(&buffer, 0, BUF);
         size = recv(create_socket, buffer, BUF - 1, 0);
         if (size > 0) {
             //buffer[size] = '\0';
@@ -117,6 +126,7 @@ int main (int argc, char **argv) {
         }
         if (strcmp(buffer, "SEND\n") == 0) {
             strcpy(buffer, Send().c_str());
+            sleep(0.5);
             send(create_socket, buffer, strlen(buffer), 0);
             /*size = recv(create_socket, buffer, BUF - 1, 0);
             if (size > 0) {
@@ -132,6 +142,7 @@ int main (int argc, char **argv) {
             string username;
             cin >> username;
             strcpy(buffer, username.c_str());
+            sleep(0.5);
             send(create_socket, buffer, strlen(buffer), 0);
             size = recv(create_socket, buffer, BUF - 1, 0);
             if (size > 0) {
@@ -148,16 +159,21 @@ int main (int argc, char **argv) {
             string username;
             cin >> username;
             strcpy(buffer, username.c_str());
+            sleep(0.5);
             send(create_socket, buffer, sizeof(buffer), 0);
             cout << "Select the Email Number: ";
             string number;
             cin >> number;
             memset(&buffer, 0, BUF);
             strcpy(buffer, number.c_str());
+            sleep(0.5);
             send(create_socket, buffer, sizeof(buffer), 0);
+            memset(&buffer, 0, BUF);
+
             size = recv(create_socket, buffer, BUF - 1, 0);
             if (size > 0) {
                 buffer[size] = '\0';
+                cout<<buffer;
                 stringstream str;
                 string sender;
                 string empf;
@@ -181,8 +197,14 @@ int main (int argc, char **argv) {
                 str >> message;
                 cout << message << endl;
                 cout << "-------------------------------------" << endl;
+                continue;
             }
-            continue;
+            else
+            {
+                cout<<"no message ";
+                continue;
+            }
+
 
         }
             // FIRST SEND METHOD SEND THE USERNAME AND THE SECOND ONE SEND THE EMAIL NUMBER
@@ -191,23 +213,26 @@ int main (int argc, char **argv) {
             string username;
             cin >> username;
             strcpy(buffer, username.c_str());
+            sleep(0.5);
             send(create_socket, buffer, sizeof(buffer), 0);
             cout << "Select the Email Number: ";
             string number;
             cin >> number;
             memset(&buffer, 0, BUF);
             strcpy(buffer, number.c_str());
+            sleep(0.5);
             send(create_socket, buffer, sizeof(buffer), 0);
             memset(&buffer, 0, BUF);
             size = recv(create_socket, buffer, BUF - 1, 0);
             if (size > 0) {
                 buffer[size] = '\0';
                 cout << buffer;
+                continue;
             }
-            continue;
+
         }
 
-    } while (strcmp(buffer, "QUIT\n") != 0);
+    }
     close (create_socket);
     return EXIT_SUCCESS;
 }

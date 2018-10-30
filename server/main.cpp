@@ -15,14 +15,14 @@
 #include <string>
 #include "functions.h"
 #define BUF 1024
-#define PORT 6543
+#define PORT 6544
 
 using namespace std;
 
 
 int main ()
 {
-    char message[1000];
+
     string _empty = "";
     int create_socket, new_socket;
     socklen_t addrlen;
@@ -64,8 +64,9 @@ int main ()
         }
         while (true)
         {
-sleep(1);
+
             memset(&buffer, 0, BUF);
+
             strcpy(buffer,"Welcome to myserver, Please enter your command:\n"
                           "choose the task: \n"
                           "1) SEND \n"
@@ -76,6 +77,16 @@ sleep(1);
             send(new_socket, buffer, strlen(buffer),0);
             memset(&buffer, 0, BUF);
             size = recv (new_socket, buffer, BUF-1, 0);
+            while(true)
+            {
+                if(buffer[0]=='\0'){
+                    size = recv (new_socket, buffer, BUF-1, 0);
+                    break;
+                }
+                else
+                { break;
+                }
+            }
             if( size > 0)
             {
                 buffer[size] = '\0';
@@ -119,15 +130,18 @@ sleep(1);
                             memset(&buffer, 0, BUF);
                             strcpy(buffer, result.c_str());
                             send(new_socket, buffer, strlen(buffer), 0);
+                            sleep(1);
+                            break;
 
                         }
                         else
                         {
 
                             cout << "Error";
+                            break;
                         }
 
-                        break;
+
 
                     }
                     case '3':
@@ -137,7 +151,7 @@ sleep(1);
                         string number;
                         string output;
                         int in = 1;
-                        int bufsize;
+
                         strcpy(buffer, message.c_str());
                         send(new_socket, buffer, strlen(buffer), 0);
                         memset(&buffer, 0, BUF);
@@ -147,13 +161,14 @@ sleep(1);
                             if(in == 1)
                             {
                                 size = recv (new_socket, buffer, BUF-1, 0);
+
                                 if(size > 0)
                                 {
 
                                     buffer[size] = '\0';
                                     username = buffer;
                                     memset(&buffer, 0, BUF);
-                                    bufsize = recv(new_socket, buffer, BUF - 1, 0);
+                                 size=recv(new_socket, buffer, BUF - 1, 0);
                                     in++;
                                     continue;
                                 }
@@ -178,6 +193,7 @@ sleep(1);
                         cout << output << endl;
                         strcpy(buffer, output.c_str());
                         send(new_socket, buffer, strlen(buffer), 0);
+                        sleep(1);
 
                         break;
                     }
@@ -191,7 +207,7 @@ sleep(1);
                         string number;
                         string output;
                         int in = 1;
-                        int bufsize;
+
                         strcpy(buffer, message.c_str());
                         send(new_socket, buffer, strlen(buffer), 0);
                         memset(&buffer, 0, BUF);
@@ -207,7 +223,7 @@ sleep(1);
                                     buffer[size] = '\0';
                                     username = buffer;
                                     memset(&buffer, 0, BUF);
-                                    bufsize = recv(new_socket, buffer, BUF - 1, 0);
+                                    size=recv(new_socket, buffer, BUF - 1, 0);
                                     in++;
                                     continue;
                                 }
