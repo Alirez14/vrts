@@ -45,8 +45,8 @@ int main (int argc, char **argv)
         return EXIT_FAILURE;
     }
 
-    do {
-        memset(buffer, 0, BUF);
+    while (strcmp(buffer, "QUIT\n") != 0) {
+        memset(&buffer, 0, BUF);
         size = recv(create_socket, buffer, BUF - 1, 0);
         if (size > 0) {
             buffer[size] = '\0';
@@ -217,12 +217,15 @@ int main (int argc, char **argv)
                 cout << "**********************************" << endl;
 
             }
-            memset(buffer, 0, BUF);
+            memset(&buffer, 0, BUF);
             continue;
         }
 
+
+
+
     }
-    while (strcmp(buffer, "QUIT\n") != 0);
+
     close (create_socket);
     return EXIT_SUCCESS;
 }

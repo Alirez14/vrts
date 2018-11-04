@@ -22,6 +22,7 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <string>
+#include <signal.h>
 
 #define BUF 1024
 #define PORT 6544

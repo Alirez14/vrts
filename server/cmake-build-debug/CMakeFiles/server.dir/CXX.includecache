@@ -35,6 +35,8 @@ dirent.h
 -
 string
 -
+signal.h
+-
 
 /home/alirez/Desktop/VRTS/server/main.cpp
 functions.h

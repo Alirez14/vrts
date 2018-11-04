@@ -10,7 +10,7 @@ int main ()
 {
 
     string _empty = "";
-    int create_socket, new_socket;
+    int create_socket, new_socket ,pid;
     socklen_t addrlen;
     char buffer[BUF];
     ssize_t size;
@@ -33,238 +33,256 @@ int main ()
 
 
     addrlen = sizeof (struct sockaddr_in);
+    static int counter=0;
     while (true)
     {
         printf("Waiting for connections...\n");
         new_socket = accept ( create_socket, (struct sockaddr *) &cliaddress, &addrlen );
-
-
-        if (new_socket > 0)
+        if ((pid = fork()) == -1)
         {
-            printf ("Client connected from %s:%d...\n", inet_ntoa (cliaddress.sin_addr),ntohs(cliaddress.sin_port));
+            close(new_socket);
+            continue;
         }
-        while (true)
+        else if(pid > 0)
         {
-            memset(&buffer, 0, BUF);
-            strcpy(buffer,"Welcome to myserver, Please enter your command:\n"
-                          "choose the task: \n"
-                          "1) SEND \n"
-                          "2) LIST\n"
-                          "3) READ \n"
-                          "4) DELETE \n"
-                          "0) QUIT \n");
+            close(new_socket);
+            counter++;
 
-            send(new_socket, buffer, strlen(buffer), 0);
-
-            memset(&buffer, 0, BUF);
-            size = recv (new_socket, buffer, BUF-1, 0);
-            cout << buffer << endl;
-            while(true)
+            continue;
+        }
+        else if(pid == 0)
+        {
+            if (new_socket > 0)
             {
-                if(buffer[0] == '\0') {
-                    size = recv(new_socket, buffer, BUF - 1, 0);
-                    break;
-                }
-                else
-                    break;
-
+                printf ("Client connected from %s:%d...\n", inet_ntoa (cliaddress.sin_addr),ntohs(cliaddress.sin_port));
             }
-            if( size > 0)
+            while (true)
             {
-                buffer[size] = '\0';
-                printf ("Message received: %s\n", buffer);
+                memset(&buffer, 0, BUF);
+                strcpy(buffer,"Welcome to myserver, Please enter your command:\n"
+                              "choose the task: \n"
+                              "1) SEND \n"
+                              "2) LIST\n"
+                              "3) READ \n"
+                              "4) DELETE \n"
+                              "0) QUIT \n");
 
-                switch (buffer[0])
+                send(new_socket, buffer, strlen(buffer), 0);
+
+                memset(&buffer, 0, BUF);
+                size = recv (new_socket, buffer, BUF-1, 0);
+                cout << buffer << endl;
+                while(true)
                 {
-                    case '1':
-                    {
-                        string message = "SEND\n";
-                        strcpy(buffer, message.c_str());
-                        send(new_socket, buffer, strlen(buffer), 0);
-                        //Empty the ARRAY
-                        memset(&buffer, 0, BUF);
-                        size = recv (new_socket, buffer, BUF-1, 0);
-                        if(size > 0)
-                        {
-                            string emp = getEmpf(buffer);
-                            Save(emp, buffer);
-                            cout << "Buffer is:" << buffer << endl;
-                        }
-
-                        memset(buffer, 0, BUF);
+                    if(buffer[0] == '\0') {
+                        size = recv(new_socket, buffer, BUF - 1, 0);
                         break;
                     }
+                    else
+                        break;
 
-                    case '2':
+                }
+                if( size > 0)
+                {
+                    buffer[size] = '\0';
+                    printf ("Message received: %s\n", buffer);
+
+                    switch (buffer[0])
                     {
-                        string result;
-                        string message = "LIST\n";
-                        strcpy(buffer, message.c_str());
-                        send(new_socket, buffer, strlen(buffer), 0);
-                        memset(&buffer, 0, BUF);
-                        size = recv(new_socket, buffer, BUF - 1, 0);
-
-                        if (size > 0)
+                        case '1':
                         {
-                            buffer[size] = '\0';
-                            string username = buffer;
-                            result = List(username);
-                            cout << "Result: " << result  << endl;
+                            string message = "SEND\n";
+                            strcpy(buffer, message.c_str());
+                            send(new_socket, buffer, strlen(buffer), 0);
+                            //Empty the ARRAY
                             memset(&buffer, 0, BUF);
-                            strcpy(buffer, result.c_str());
+                            size = recv (new_socket, buffer, BUF-1, 0);
+                            if(size > 0)
+                            {
+                                string emp = getEmpf(buffer);
+                                Save(emp, buffer);
+                                cout << "Buffer is:" << buffer << endl;
+                            }
+
+                            memset(buffer, 0, BUF);
+                            break;
+                        }
+
+                        case '2':
+                        {
+                            string result;
+                            string message = "LIST\n";
+                            strcpy(buffer, message.c_str());
+                            send(new_socket, buffer, strlen(buffer), 0);
+                            memset(&buffer, 0, BUF);
+                            size = recv(new_socket, buffer, BUF - 1, 0);
+
+                            if (size > 0)
+                            {
+                                buffer[size] = '\0';
+                                string username = buffer;
+                                result = List(username);
+                                cout << "Result: " << result  << endl;
+                                memset(&buffer, 0, BUF);
+                                strcpy(buffer, result.c_str());
+                                send(new_socket, buffer, strlen(buffer), 0);
+
+                            }
+                            else
+                            {
+
+                                cout << "Error";
+                            }
+
+                            memset(buffer, 0, BUF);
+                            sleep(1);
+                            break;
+
+                        }
+                        case '3':
+                        {
+                            string message = "READ\n";
+                            string username;
+                            string number;
+                            string output;
+                            int in = 1;
+                            ssize_t bufsize;
+                            strcpy(buffer, message.c_str());
+                            send(new_socket, buffer, strlen(buffer), 0);
+                            memset(&buffer, 0, BUF);
+                            while(in != 3)
+                            {
+
+                                if(in == 1)
+                                {
+                                    size = recv (new_socket, buffer, BUF-1, 0);
+                                    if(size > 0)
+                                    {
+
+                                        buffer[size] = '\0';
+                                        username = buffer;
+                                        memset(&buffer, 0, BUF);
+                                        recv(new_socket, buffer, BUF - 1, 0);
+                                        in++;
+                                        continue;
+                                    }
+                                }
+
+                                else if ( in == 2)
+                                {
+                                    size = recv (new_socket, buffer, BUF-1, 0);
+                                    if(size > 0)
+                                    {
+                                        buffer[size] = '\0';
+
+                                        number = buffer;
+                                        memset(&buffer, 0, BUF);
+                                        in++;
+                                        continue;
+                                    }
+                                }
+
+                            }
+                            output = read(username, number);
+                            cout << output << endl;
+                            strcpy(buffer, output.c_str());
                             send(new_socket, buffer, strlen(buffer), 0);
 
+                            sleep(1);
+                            memset(buffer, 0, BUF);
+                            cout << "buffer = " << buffer << endl;
+                            break;
                         }
-                        else
+
+
+
+                        case '4':
                         {
+                            string message = "DELETE\n";
+                            string username;
+                            string number;
+                            string output;
+                            int in = 1;
+                            int bufsize;
+                            strcpy(buffer, message.c_str());
+                            send(new_socket, buffer, strlen(buffer), 0);
+                            memset(&buffer, 0, BUF);
+                            while(in != 3)
+                            {
 
-                            cout << "Error";
+                                if(in == 1)
+                                {
+                                    size = recv (new_socket, buffer, BUF-1, 0);
+                                    if(size > 0)
+                                    {
+
+                                        buffer[size] = '\0';
+                                        username = buffer;
+                                        memset(&buffer, 0, BUF);
+                                        bufsize = recv(new_socket, buffer, BUF - 1, 0);
+                                        in++;
+                                        continue;
+                                    }
+                                }
+
+                                else if ( in == 2)
+                                {
+                                    size = recv (new_socket, buffer, BUF-1, 0);
+                                    if(size > 0)
+                                    {
+                                        buffer[size] = '\0';
+
+                                        number = buffer;
+                                        memset(&buffer, 0, BUF);
+                                        in++;
+                                        continue;
+                                    }
+                                }
+
+                            }
+                            output = del(username, number);
+                            strcpy(buffer, output.c_str());
+                            send(new_socket, buffer, strlen(buffer), 0);
+
+                            memset(buffer, 0, BUF);
+                            sleep(1);
+                            break;
                         }
 
-                        memset(buffer, 0, BUF);
-                        sleep(1);
-                        break;
-
-                    }
-                    case '3':
-                    {
-                        string message = "READ\n";
-                        string username;
-                        string number;
-                        string output;
-                        int in = 1;
-                        ssize_t bufsize;
-                        strcpy(buffer, message.c_str());
-                        send(new_socket, buffer, strlen(buffer), 0);
-                        memset(&buffer, 0, BUF);
-                        while(in != 3)
+                        case '0':
                         {
-
-                            if(in == 1)
-                            {
-                                size = recv (new_socket, buffer, BUF-1, 0);
-                                if(size > 0)
-                                {
-
-                                    buffer[size] = '\0';
-                                    username = buffer;
-                                    memset(&buffer, 0, BUF);
-                                    recv(new_socket, buffer, BUF - 1, 0);
-                                    in++;
-                                    continue;
-                                }
-                            }
-
-                            else if ( in == 2)
-                            {
-                                size = recv (new_socket, buffer, BUF-1, 0);
-                                if(size > 0)
-                                {
-                                    buffer[size] = '\0';
-
-                                    number = buffer;
-                                    memset(&buffer, 0, BUF);
-                                    in++;
-                                    continue;
-                                }
-                            }
-
+                            string message = "QUIT\n";
+                            strcpy(buffer, message.c_str());
+                            send(new_socket, buffer, strlen(buffer), 0);
+                            sleep(1);
+                            break;
                         }
-                        output = read(username, number);
-                        cout << output << endl;
-                        strcpy(buffer, output.c_str());
-                        send(new_socket, buffer, strlen(buffer), 0);
 
-                        sleep(1);
-                        memset(buffer, 0, BUF);
-                        cout << "buffer = " << buffer << endl;
-                        break;
-                    }
-
-
-
-                    case '4':
-                    {
-                        string message = "DELETE\n";
-                        string username;
-                        string number;
-                        string output;
-                        int in = 1;
-                        int bufsize;
-                        strcpy(buffer, message.c_str());
-                        send(new_socket, buffer, strlen(buffer), 0);
-                        memset(&buffer, 0, BUF);
-                        while(in != 3)
-                        {
-
-                            if(in == 1)
-                            {
-                                size = recv (new_socket, buffer, BUF-1, 0);
-                                if(size > 0)
-                                {
-
-                                    buffer[size] = '\0';
-                                    username = buffer;
-                                    memset(&buffer, 0, BUF);
-                                    bufsize = recv(new_socket, buffer, BUF - 1, 0);
-                                    in++;
-                                    continue;
-                                }
-                            }
-
-                            else if ( in == 2)
-                            {
-                                size = recv (new_socket, buffer, BUF-1, 0);
-                                if(size > 0)
-                                {
-                                    buffer[size] = '\0';
-
-                                    number = buffer;
-                                    memset(&buffer, 0, BUF);
-                                    in++;
-                                    continue;
-                                }
-                            }
-
-                        }
-                        output = del(username, number);
-                        strcpy(buffer, output.c_str());
-                        send(new_socket, buffer, strlen(buffer), 0);
-
-                        memset(buffer, 0, BUF);
-                        sleep(1);
-                        break;
-                    }
-
-                    case '0':
-                    {
-                        string message = "QUIT\n";
-                        strcpy(buffer, message.c_str());
-                        send(new_socket, buffer, strlen(buffer), 0);
-                        break;
                     }
 
                 }
 
+                if (buffer[0]=='0')
+                {
+                    printf("Client closed remote socket\n");
+                    break;
+                }
+
+                else if (size == 0)
+                {
+                    printf("Client closed remote socket\n");
+                    break;
+                }
+                else{
+                    continue;
+                }
             }
 
-            if (buffer[0]=='0')
-            {
-                printf("Client closed remote socket\n");
-                break;
-            }
-
-            else if (size == 0)
-            {
-                printf("Client closed remote socket\n");
-                break;
-            }
-            else{
-                continue;
-            }
+            close(new_socket);
+            break;
         }
 
-        close(new_socket);
+
     }
     close (create_socket);
     return EXIT_SUCCESS;
