@@ -19,7 +19,7 @@
 using namespace std;
 
 //SEND EMAIL
-string Send()
+string Send(string name)
 {
     string sender, to, subject;
 

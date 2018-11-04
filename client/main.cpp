@@ -16,6 +16,9 @@ int main (int argc, char **argv)
     argv[0]="./client";
     argv[1]="localhost";
 
+    string ldapu;
+    string password;
+
     if (argc < 2)
     {
         printf("Usage: %s ServerAdresse\n", argv[0]);
@@ -38,14 +41,11 @@ int main (int argc, char **argv)
     {
         printf("Connection with server (%s) established\n", inet_ntoa(address.sin_addr));
 
-        string username;
-        string password;
         int tedad = 0;
 
         for(;;) {
 
-            string username;
-            string password;
+
             memset(&buffer, 0, BUF);
             if( tedad == 3)
             {
@@ -69,8 +69,8 @@ int main (int argc, char **argv)
             {
                 cout << buffer;
             }
-            cin >> username;
-            strcpy(buffer, username.c_str());
+            cin >> ldapu;
+            strcpy(buffer, ldapu.c_str());
             send(create_socket, buffer, strlen(buffer), 0);
 
             memset(&buffer, 0, BUF);
@@ -141,7 +141,7 @@ int main (int argc, char **argv)
         }
         if (strcmp(buffer, "SEND\n") == 0)
         {
-            strcpy(buffer, Send().c_str());
+            strcpy(buffer, Send(ldapu).c_str());
             send(create_socket, buffer, strlen(buffer), 0);
 
             continue;
@@ -150,10 +150,8 @@ int main (int argc, char **argv)
         else if (strcmp(buffer, "LIST\n") == 0)
         {
 
-            cout << "Username: ";
-            string username;
-            cin >> username;
-            strcpy(buffer, username.c_str());
+
+            strcpy(buffer, ldapu.c_str());
             send(create_socket, buffer, strlen(buffer), 0);
             size = recv(create_socket, buffer, BUF - 1, 0);
             if (size > 0)
@@ -176,14 +174,12 @@ int main (int argc, char **argv)
 
         }
 
-        // FIRST SEND METHOD SEND THE USERNAME AND THE SECOND ONE SEND THE EMAIL NUMBER
+        // FIRST SEND METHOD SEND THE ldapu AND THE SECOND ONE SEND THE EMAIL NUMBER
         else if (strcmp(buffer, "READ\n") == 0)
         {
 
-            cout << "Username: " << endl;
-            string username;
-            cin >> username;
-            strcpy(buffer, username.c_str());
+
+            strcpy(buffer, ldapu.c_str());
 
             if(buffer[0] != '\0')
             {
@@ -255,14 +251,12 @@ int main (int argc, char **argv)
             continue;
 
         }
-        // FIRST SEND METHOD SEND THE USERNAME AND THE SECOND ONE SEND THE EMAIL NUMBER
+        // FIRST SEND METHOD SEND THE ldapu AND THE SECOND ONE SEND THE EMAIL NUMBER
         else if (strcmp(buffer, "DELETE\n") == 0)
         {
 
-            cout << "Username: " << endl;
-            string username;
-            cin >> username;
-            strcpy(buffer, username.c_str());
+
+            strcpy(buffer, ldapu.c_str());
             send(create_socket, buffer, sizeof(buffer), 0);
             cout << "Select the Email Number: ";
             string number;
