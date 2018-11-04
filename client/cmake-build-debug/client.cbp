@@ -84,6 +84,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/alirez/Desktop/VRTS/client/header.h">
+			<Option target="client"/>
+		</Unit>
 		<Unit filename="/home/alirez/Desktop/VRTS/client/main.cpp">
 			<Option target="client"/>
 		</Unit>

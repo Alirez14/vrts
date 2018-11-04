@@ -37,34 +37,6 @@ string
 -
 
 /home/alirez/Desktop/VRTS/server/main.cpp
-sys/types.h
--
-sys/socket.h
--
-netinet/in.h
--
-arpa/inet.h
--
-unistd.h
--
-stdlib.h
--
-sstream
--
-stdio.h
--
-string.h
--
-iostream
--
-fstream
--
-sys/stat.h
--
-dirent.h
--
-string
--
 functions.h
 /home/alirez/Desktop/VRTS/server/functions.h
 
