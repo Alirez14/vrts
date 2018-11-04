@@ -1,13 +1,5 @@
-//
-// Created by alirez on 23.10.18.
-//
-
 #ifndef SERVER_FUNCTIONS_H
 #define SERVER_FUNCTIONS_H
-
-
-
-
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -22,11 +14,21 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <string>
+#include <time.h>
+#include <pthread.h>
+#include <ldap.h>
 
 #define BUF 1024
-#define PORT 6544
+#define PORT 6543
+#define LDAP_URI "ldap://ldap.technikum-wien.at:389"
+#define SEARCHBASE "dc=technikum-wien,dc=at"
+#define SCOPE LDAP_SCOPE_SUBTREE
+#define FILTER "(uid=if16b086)"
+#define BIND_USER ""	/* anonymous bind with user and pw empty */
+#define BIND_PW ""
 
 using namespace std;
+
 
 // GET THE MESSAGE FROM THE CLIENT AND SAVE IT INTO NEW ORDNER AND CREATE A EMAIL FILE FOR EACH MAIL
 void Save(string sname, char message[BUF])
@@ -127,18 +129,25 @@ int CountEmails(string name)
 string List(string name)
 {
     int countemail;
-    string emptymail = "No Email\n";
+    string emptymail = "This User has no Email No Email\n";
     string path = "../../Mails/";
     string username = name;
     string message_read;
     string output;
+    string fileExists = path + username;
 
     //GET THE EMAILS COUNTS
     countemail = CountEmails(name);
+    if(countemail == 0)
+    {
+        return "0";
+    }
     output.append("Number of Emails: ");
     output.append(to_string(countemail) + "\n");
+    output.append("======================");
+    output.append("\n");
 
-     int emailnum = 1;
+    int emailnum = 1;
 
     //WHILE EXISTS EMAILS, LIST ALL THE SUBJECTS
     while(true)
@@ -163,7 +172,8 @@ string List(string name)
                 result[i].append(message_read);
                 i++;
             }
-            output.append("Email number " + num + "\n");
+            output.append("Email number " + num + " ");
+            output.append("---> ");
             output.append("Subject: ");
             output.append(result[2]);
             output.append("\n");
@@ -173,8 +183,16 @@ string List(string name)
             break;
 
     }
+    output.append("======================");
+    output.append("\n");
 
     return output;
+}
+
+
+bool fexists(string& filename) {
+    ifstream ifile(filename.c_str());
+    return (bool)ifile;
 }
 
 //READ FUNCTION
@@ -197,18 +215,15 @@ string read(string name, string emailnum)
     struct stat st;
     num = emailnum;
 
-    // iF THERE IS NO FOLDER, IT MEANS THE USER HAS NO EMAILS
-    if (opendir(folder.c_str()) == NULL)
-    {
-        return emptymail;
-    }
-
-        //ELSE SEND IT TO AN ARRAY AND RETURN IT
-    else
-    {
 
         Filename = folder + "/" + email + emailnum + ".txt";
-        cout << Filename;
+
+        bool is_true = fexists(Filename);
+
+        if (is_true == false)
+        {
+            return "ERROR!";
+        }
 
         File.open(Filename);
 
@@ -225,7 +240,6 @@ string read(string name, string emailnum)
 
         File.close();
 
-    }
     return result;
 }
 
@@ -277,23 +291,15 @@ string del(string name, string emailnum)
             }
             cout << File << endl;
         }
-        output.append("The File " + Filename + " has beed deleted Successfully");
+        output.append("The File " + Filename + " has beed deleted Successfully" + "\n");
     }
     else
     {
-        output.append("Unable to delete the File " + Filename);
+        output.append("Unable to delete the File " + Filename + "\n" + "The File does Not Exists!" + "\n\n");
     }
 
     return output;
 }
-
-
-
-
-
-
-
-
 
 
 #endif //SERVER_FUNCTIONS_H

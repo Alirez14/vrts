@@ -1,65 +1,12 @@
 /* myclient.c */
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <string>
-#include <sstream>
-#include <iostream>
-#include <vector>
+#include "header.h"
+
 #define BUF 1024
-#define PORT 6544
-/*
-******************* CLIENT *******************
-*/
-using namespace std;
+#define PORT 6543
 
-//SEND EMAIL
-string Send()
+
+int main (int argc, char **argv)
 {
-    string sender, to, subject;
-
-    //VECTOR REMALOC THE SIZE
-    vector<string> mail[100];
-    string message;
-
-    cout << "FROM: ";
-    cin >> sender;
-    cout << "TO: ";
-    cin >> to;
-    cout << "Subject: ";
-    cin >> subject;
-    cout << "Message:" << endl;
-
-    mail->push_back(sender + "\n");
-    mail->push_back(to + "\n");
-    mail->push_back(subject + "\n");
-
-    while (message != ".")
-    {
-        getline(cin, message);
-        mail->push_back(message + "\n");
-
-    }
-
-    auto size = mail->size();
-    auto *Email = new string[size] ;
-
-    for(auto i = mail->begin(); i != mail->end(); ++i)
-    {
-        Email->append(*i);
-    }
-
-    return *Email;
-    delete[] Email;
-}
-
-
-int main (int argc, char **argv) {
     int create_socket;
     char buffer[BUF];
     string sender, subject, to, message;
@@ -69,14 +16,14 @@ int main (int argc, char **argv) {
     argv[0]="./client";
     argv[1]="localhost";
 
-
-
-    if (argc < 2) {
+    if (argc < 2)
+    {
         printf("Usage: %s ServerAdresse\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
-    if ((create_socket = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+    if ((create_socket = socket(AF_INET, SOCK_STREAM, 0)) == -1)
+    {
         perror("Socket error");
         return EXIT_FAILURE;
     }
@@ -87,98 +34,165 @@ int main (int argc, char **argv) {
     address.sin_port = htons(PORT);
     inet_aton(argv[1], &address.sin_addr);
 
-    if (connect(create_socket, (struct sockaddr *) &address, sizeof(address)) == 0) {
+    if (connect(create_socket, (struct sockaddr *) &address, sizeof(address)) == 0)
+    {
         printf("Connection with server (%s) established\n", inet_ntoa(address.sin_addr));
-//label:
-        //memset(&address, 0, sizeof(address));
+/*
+        string username;
+        string password;
+
+        for(int i = 0; i < 4; i++) {
 
 
-    } else {
+            memset(&buffer, 0, BUF);
+            if( i == 3)
+            {
+                break;
+            }
+
+            size = recv(create_socket, buffer, BUF - 1, 0);
+            if(size > 0)
+            {
+                cout << buffer;
+            }
+            cin >> username;
+            strcpy(buffer, username.c_str());
+            send(create_socket, buffer, strlen(buffer), 0);
+
+            memset(&buffer, 0, BUF);
+            size = recv(create_socket, buffer, BUF - 1, 0);
+            if(size > 0)
+            {
+                cout << buffer;
+            }
+
+            cin >> password;
+            strcpy(buffer, password.c_str());
+            send(create_socket, buffer, strlen(buffer), 0);
+            memset(&buffer, 0, BUF);
+            size = recv(create_socket, buffer, BUF - 1, 0);
+            if (size > 0)
+            {
+                if( strcmp(buffer, "ERR!") != 0)
+                    break;
+            }
+
+        } */
+    }
+    else
+    {
         perror("Connect error - no server available");
         return EXIT_FAILURE;
     }
 
-    while (strcmp(buffer, "QUIT\n") != 0) {
-        sleep(0.5);
-        cout << buffer;
+    do {
+        memset(buffer, 0, BUF);
         size = recv(create_socket, buffer, BUF - 1, 0);
         if (size > 0) {
             buffer[size] = '\0';
-            cout << buffer;
+            printf("%s", buffer);
         }
-        char message[100];
-        cin >> message;
-        memset(&buffer, 0, BUF);
-        strcpy(buffer, message);
-        sleep(0.5);
-        if (buffer[0] != '\0')
+
+        int num;
+        cout << "> ";
+        cin >> num;
+
+        if(cin.fail())
         {
-            send(create_socket, buffer, strlen(buffer), 0);
-        }
-        else{
-            continue;
+            cout << "Unknown Task! Please Choose the right one" << endl;
+            cin.clear();
+            cin.ignore();
+            cout << "> ";
+            cin >> num;
         }
         memset(&buffer, 0, BUF);
+        string message = to_string(num);
+        strcpy(buffer, message.c_str());
+
+        send(create_socket, buffer, strlen(buffer), 0);
         size = recv(create_socket, buffer, BUF - 1, 0);
-        if (size > 0) {
-            //buffer[size] = '\0';
+        if (size > 0)
+        {
+            buffer[size] = '\0';
             cout << buffer;
         }
-        if (strcmp(buffer, "SEND\n") == 0) {
+        if (strcmp(buffer, "SEND\n") == 0)
+        {
             strcpy(buffer, Send().c_str());
-            sleep(0.5);
             send(create_socket, buffer, strlen(buffer), 0);
-            /*size = recv(create_socket, buffer, BUF - 1, 0);
-            if (size > 0) {
-                buffer[size] = '\0';
-                cout << buffer;
-            } */
 
             continue;
 
-        } else if (strcmp(buffer, "LIST\n") == 0) {
-            //memset(&buffer, 0, BUF);
+        }
+        else if (strcmp(buffer, "LIST\n") == 0)
+        {
+
             cout << "Username: ";
             string username;
             cin >> username;
             strcpy(buffer, username.c_str());
-            sleep(0.5);
             send(create_socket, buffer, strlen(buffer), 0);
             size = recv(create_socket, buffer, BUF - 1, 0);
-            if (size > 0) {
+            if (size > 0)
+            {
+
                 buffer[size] = '\0';
-                cout << buffer;
+                if(strcmp(buffer, "0") == 0)
+                {
+                    cout << "................" << endl;
+                    cout << "Inbox is Empty!" << endl;
+                    cout << "................" << endl;
+                    cout << endl;
+                }
+                else {
+                    cout << buffer << endl;
+                }
             }
 
             continue;
 
         }
-            // FIRST SEND METHOD SEND THE USERNAME AND THE SECOND ONE SEND THE EMAIL NUMBER
-        else if (strcmp(buffer, "READ\n") == 0) {
+
+        // FIRST SEND METHOD SEND THE USERNAME AND THE SECOND ONE SEND THE EMAIL NUMBER
+        else if (strcmp(buffer, "READ\n") == 0)
+        {
+
             cout << "Username: " << endl;
             string username;
             cin >> username;
             strcpy(buffer, username.c_str());
-            sleep(0.5);
-            send(create_socket, buffer, sizeof(buffer), 0);
+
+            if(buffer[0] != '\0')
+            {
+                send(create_socket, buffer, sizeof(buffer), 0);
+            }
+
             cout << "Select the Email Number: ";
             string number;
             cin >> number;
             memset(&buffer, 0, BUF);
             strcpy(buffer, number.c_str());
-            sleep(0.5);
             send(create_socket, buffer, sizeof(buffer), 0);
-            memset(&buffer, 0, BUF);
-
             size = recv(create_socket, buffer, BUF - 1, 0);
             if (size > 0) {
+
+                if(strcmp(buffer, "ERROR!") == 0)
+                {
+
+                    cout << "\n" << buffer << endl;
+                    cout << "THE EMAIL DOES NOT EXISTS OR HAS BEEN DELETED" << endl;
+                    cout << endl;
+                    continue;
+
+                }
+
                 buffer[size] = '\0';
-                cout<<buffer;
                 stringstream str;
                 string sender;
                 string empf;
                 string subject;
-                string message;
+                string message[1000];
+
                 cout << "-------------------------------------" << endl;
                 str << buffer;
                 cout << "Sender: ";
@@ -194,45 +208,61 @@ int main (int argc, char **argv) {
                 cout << subject << endl;
 
                 cout << "Message: ";
-                str >> message;
-                cout << message << endl;
+                int i = 0;
+                while(str) {
+
+                    str >> message[i];
+                    if(message[i] == ".")
+                    {
+                        break;
+                    }
+                    if(message[i] == "\n")
+                    {
+                        cout << endl;
+                    }
+
+                    cout << message[i] << " " ;
+                    i++;
+
+                }
+                cout << endl;
                 cout << "-------------------------------------" << endl;
-                continue;
-            }
-            else
-            {
-                cout<<"no message ";
-                continue;
             }
 
+            continue;
 
         }
-            // FIRST SEND METHOD SEND THE USERNAME AND THE SECOND ONE SEND THE EMAIL NUMBER
-        else if (strcmp(buffer, "DELETE\n") == 0) {
+        // FIRST SEND METHOD SEND THE USERNAME AND THE SECOND ONE SEND THE EMAIL NUMBER
+        else if (strcmp(buffer, "DELETE\n") == 0)
+        {
+
             cout << "Username: " << endl;
             string username;
             cin >> username;
             strcpy(buffer, username.c_str());
-            sleep(0.5);
             send(create_socket, buffer, sizeof(buffer), 0);
             cout << "Select the Email Number: ";
             string number;
             cin >> number;
             memset(&buffer, 0, BUF);
             strcpy(buffer, number.c_str());
-            sleep(0.5);
             send(create_socket, buffer, sizeof(buffer), 0);
             memset(&buffer, 0, BUF);
             size = recv(create_socket, buffer, BUF - 1, 0);
-            if (size > 0) {
+            if (size > 0)
+            {
                 buffer[size] = '\0';
+                cout << "**********************************" << endl;
                 cout << buffer;
-                continue;
-            }
+                cout << "**********************************" << endl;
 
+            }
+            memset(buffer, 0, BUF);
+            continue;
         }
 
     }
+    while (strcmp(buffer, "QUIT\n") != 0);
     close (create_socket);
     return EXIT_SUCCESS;
 }

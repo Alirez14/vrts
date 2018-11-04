@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/alirez/Desktop/VRTS/client/main.cpp
+/home/sina/client-server/client/header.h
 sys/types.h
 -
 sys/socket.h
@@ -31,4 +31,12 @@ iostream
 -
 vector
 -
+thread
+-
+cstdio
+-
+
+/home/sina/client-server/client/main.cpp
+header.h
+/home/sina/client-server/client/header.h
 

@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/alirez/Desktop/VRTS/server/functions.h
+/home/sina/client-server/server/functions.h
 sys/types.h
 -
 sys/socket.h
@@ -34,37 +34,15 @@ sys/stat.h
 dirent.h
 -
 string
+-
+time.h
+-
+pthread.h
+-
+ldap.h
 -
 
-/home/alirez/Desktop/VRTS/server/main.cpp
-sys/types.h
--
-sys/socket.h
--
-netinet/in.h
--
-arpa/inet.h
--
-unistd.h
--
-stdlib.h
--
-sstream
--
-stdio.h
--
-string.h
--
-iostream
--
-fstream
--
-sys/stat.h
--
-dirent.h
--
-string
--
+/home/sina/client-server/server/main.cpp
 functions.h
-/home/alirez/Desktop/VRTS/server/functions.h
+/home/sina/client-server/server/functions.h
 

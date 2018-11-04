@@ -1,28 +1,14 @@
 /* myserver.c */
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <sstream>
-#include <stdio.h>
-#include <string.h>
-#include <iostream>
-#include <fstream>
-#include <sys/stat.h>
-#include <dirent.h>
-#include <string>
+
 #include "functions.h"
 #define BUF 1024
-#define PORT 6544
+#define PORT 6543
 
 using namespace std;
 
-
-int main ()
+int main()
 {
-
+    char message[1000];
     string _empty = "";
     int create_socket, new_socket;
     socklen_t addrlen;
@@ -42,31 +28,82 @@ int main ()
         perror("bind error");
         return EXIT_FAILURE;
     }
-    listen (create_socket, 5);
+
+    listen(create_socket, 5);
+
 
     addrlen = sizeof (struct sockaddr_in);
     while (true)
     {
         printf("Waiting for connections...\n");
         new_socket = accept ( create_socket, (struct sockaddr *) &cliaddress, &addrlen );
+
+
         if (new_socket > 0)
         {
             printf ("Client connected from %s:%d...\n", inet_ntoa (cliaddress.sin_addr),ntohs(cliaddress.sin_port));
-            /*strcpy(buffer,"Welcome to myserver, Please enter your command:\n"
-                          "choose the task: \n"
-                          "1) SEND \n"
-                          "2) LIST\n"
-                          "3) READ \n"
-                          "4) DELETE \n"
-                          "5) QUIT \n");
-            send(new_socket, buffer, strlen(buffer),0);
-            memset(&buffer, 0, BUF);*/
+
+
         }
-        while (true)
+      /*  string username;
+        string password;
+
+        for (int i = 0; i < 4; i++)
         {
+            cout << i << endl;
 
             memset(&buffer, 0, BUF);
 
+            if(i == 3)
+            {
+                memset(&buffer, 0, BUF);
+                strcpy(buffer, "ERR!\nYOUR IP HAS BEEN BLOCKED FOR 30MINS\n\n");
+                send(new_socket, buffer, strlen(buffer), 0);
+                break;
+            }
+
+            strcpy(buffer, "Username: ");
+            send(new_socket, buffer, strlen(buffer), 0);
+            memset(&buffer, 0, BUF);
+            size = recv(new_socket, buffer, BUF - 1, 0);
+            if(size > 0)
+            {
+                username = buffer;
+                cout << username;
+            }
+
+            memset(&buffer, 0, BUF);
+            strcpy(buffer, "Password: ");
+            send(new_socket, buffer, strlen(buffer), 0);
+            memset(&buffer, 0, BUF);
+            size = recv(new_socket,buffer,  BUF - 1, 0);
+            if( size > 0)
+            {
+                password = buffer;
+                cout << password;
+            }
+
+            int num = ldap(username, password);
+            if(num == 1)
+            {
+                memset(&buffer, 0, BUF);
+                strcpy(buffer, "OK!");
+                send(new_socket, buffer, strlen(buffer), 0);
+                break;
+            }
+            else if(num == 0)
+            {
+                cout << "OK IN " << endl;
+                memset(&buffer, 0, BUF);
+                strcpy(buffer, "ERR!");
+                send(new_socket, buffer, strlen(buffer), 0);
+            }
+
+        }
+    */
+        while (true)
+        {
+            memset(&buffer, 0, BUF);
             strcpy(buffer,"Welcome to myserver, Please enter your command:\n"
                           "choose the task: \n"
                           "1) SEND \n"
@@ -74,18 +111,21 @@ int main ()
                           "3) READ \n"
                           "4) DELETE \n"
                           "0) QUIT \n");
-            send(new_socket, buffer, strlen(buffer),0);
+
+            send(new_socket, buffer, strlen(buffer), 0);
+
             memset(&buffer, 0, BUF);
             size = recv (new_socket, buffer, BUF-1, 0);
+            cout << buffer << endl;
             while(true)
             {
-                if(buffer[0]=='\0'){
-                    size = recv (new_socket, buffer, BUF-1, 0);
+                if(buffer[0] == '\0') {
+                    size = recv(new_socket, buffer, BUF - 1, 0);
                     break;
                 }
                 else
-                { break;
-                }
+                    break;
+
             }
             if( size > 0)
             {
@@ -109,6 +149,7 @@ int main ()
                             cout << "Buffer is:" << buffer << endl;
                         }
 
+                        memset(&buffer, 0, BUF);
                         break;
                     }
 
@@ -130,18 +171,17 @@ int main ()
                             memset(&buffer, 0, BUF);
                             strcpy(buffer, result.c_str());
                             send(new_socket, buffer, strlen(buffer), 0);
-                            sleep(1);
-                            break;
 
                         }
                         else
                         {
 
                             cout << "Error";
-                            break;
                         }
 
-
+                        memset(&buffer, 0, BUF);
+                        sleep(1);
+                        break;
 
                     }
                     case '3':
@@ -151,7 +191,7 @@ int main ()
                         string number;
                         string output;
                         int in = 1;
-
+                        ssize_t bufsize;
                         strcpy(buffer, message.c_str());
                         send(new_socket, buffer, strlen(buffer), 0);
                         memset(&buffer, 0, BUF);
@@ -161,14 +201,13 @@ int main ()
                             if(in == 1)
                             {
                                 size = recv (new_socket, buffer, BUF-1, 0);
-
                                 if(size > 0)
                                 {
 
                                     buffer[size] = '\0';
                                     username = buffer;
                                     memset(&buffer, 0, BUF);
-                                 size=recv(new_socket, buffer, BUF - 1, 0);
+                                    recv(new_socket, buffer, BUF - 1, 0);
                                     in++;
                                     continue;
                                 }
@@ -193,8 +232,10 @@ int main ()
                         cout << output << endl;
                         strcpy(buffer, output.c_str());
                         send(new_socket, buffer, strlen(buffer), 0);
-                        sleep(1);
 
+                        sleep(1);
+                        memset(&buffer, 0, BUF);
+                        cout << "buffer = " << buffer << endl;
                         break;
                     }
 
@@ -207,7 +248,7 @@ int main ()
                         string number;
                         string output;
                         int in = 1;
-
+                        int bufsize;
                         strcpy(buffer, message.c_str());
                         send(new_socket, buffer, strlen(buffer), 0);
                         memset(&buffer, 0, BUF);
@@ -223,7 +264,7 @@ int main ()
                                     buffer[size] = '\0';
                                     username = buffer;
                                     memset(&buffer, 0, BUF);
-                                    size=recv(new_socket, buffer, BUF - 1, 0);
+                                    bufsize = recv(new_socket, buffer, BUF - 1, 0);
                                     in++;
                                     continue;
                                 }
@@ -248,6 +289,8 @@ int main ()
                         strcpy(buffer, output.c_str());
                         send(new_socket, buffer, strlen(buffer), 0);
 
+                        memset(&buffer, 0, BUF);
+                        sleep(1);
                         break;
                     }
 
@@ -256,15 +299,14 @@ int main ()
                         string message = "QUIT\n";
                         strcpy(buffer, message.c_str());
                         send(new_socket, buffer, strlen(buffer), 0);
-
-
                         break;
                     }
 
                 }
 
             }
-            if (buffer=="QUIT\n")
+
+            if (buffer[0]=='0')
             {
                 printf("Client closed remote socket\n");
                 break;
@@ -275,12 +317,13 @@ int main ()
                 printf("Client closed remote socket\n");
                 break;
             }
-            else{
+            else
+            {
                 continue;
             }
         }
-        close (new_socket);
-        continue;
+
+        close(new_socket);
     }
     close (create_socket);
     return EXIT_SUCCESS;
