@@ -41,14 +41,6 @@ pthread.h
 -
 ldap.h
 -
-ldap_cdefs.h
--
-ldap_features.h
--
-ldap_schema.h
--
-ldap_utf8.h
--
 ldif.h
 -
 

@@ -37,17 +37,31 @@ int main (int argc, char **argv)
     if (connect(create_socket, (struct sockaddr *) &address, sizeof(address)) == 0)
     {
         printf("Connection with server (%s) established\n", inet_ntoa(address.sin_addr));
-/*
+
         string username;
         string password;
+        int tedad = 0;
 
-        for(int i = 0; i < 4; i++) {
+        for(;;) {
 
-
+            string username;
+            string password;
             memset(&buffer, 0, BUF);
-            if( i == 3)
+            if( tedad == 3)
             {
-                break;
+                memset(&buffer, 0, BUF);
+                size = recv(create_socket, buffer, BUF -1, 0);
+                if(size > 0)
+                {
+                    buffer[size] = '\0';
+                    cout << buffer << endl;
+                    for(int j = 1; j <= 5; j++)
+                    {
+                        sleep(60);
+                    }
+                    tedad++;
+                }
+                continue;
             }
 
             size = recv(create_socket, buffer, BUF - 1, 0);
@@ -69,15 +83,24 @@ int main (int argc, char **argv)
             cin >> password;
             strcpy(buffer, password.c_str());
             send(create_socket, buffer, strlen(buffer), 0);
+            strcpy(buffer, "----------------------------\n");
+
             memset(&buffer, 0, BUF);
             size = recv(create_socket, buffer, BUF - 1, 0);
+
             if (size > 0)
             {
-                if( strcmp(buffer, "ERR!") != 0)
+                if( strcmp(buffer, "ERR!") != 0) {
+                    cout << buffer << endl;
                     break;
+                }
+                else
+                {
+                    cout << "ERROR BEIM LDAP, TRY AGAIN!" << endl;
+                }
             }
-
-        } */
+            tedad++;
+        }
     }
     else
     {

@@ -45,24 +45,33 @@ int main()
 
 
         }
-      /*  string username;
-        string password;
 
-        for (int i = 0; i < 4; i++)
+        int tedad = 0;
+
+        for (;;)
         {
-            cout << i << endl;
 
+            string username;
+            string password;
             memset(&buffer, 0, BUF);
 
-            if(i == 3)
+            if(tedad == 3)
             {
                 memset(&buffer, 0, BUF);
-                strcpy(buffer, "ERR!\nYOUR IP HAS BEEN BLOCKED FOR 30MINS\n\n");
+                strcpy(buffer, "ERR!\nYOUR IP HAS BEEN BLOCKED FOR 5MINS\n\n");
                 send(new_socket, buffer, strlen(buffer), 0);
-                break;
+                for(int j = 1; j <= 5; j++)
+                {
+                    sleep(60);
+                }
+                tedad++;
+                memset(&buffer, 0, BUF);
+                sleep(1);
+                continue;
             }
 
-            strcpy(buffer, "Username: ");
+            strcpy(buffer, "----------------------------\n");
+            strcat(buffer, "Username: ");
             send(new_socket, buffer, strlen(buffer), 0);
             memset(&buffer, 0, BUF);
             size = recv(new_socket, buffer, BUF - 1, 0);
@@ -84,23 +93,29 @@ int main()
             }
 
             int num = ldap(username, password);
+
+            cout << num << endl;
             if(num == 1)
             {
                 memset(&buffer, 0, BUF);
-                strcpy(buffer, "OK!");
+                strcpy(buffer, "OK!\n");
                 send(new_socket, buffer, strlen(buffer), 0);
+                memset(&buffer, 0, BUF);
+                sleep(2);
                 break;
             }
             else if(num == 0)
             {
-                cout << "OK IN " << endl;
+
                 memset(&buffer, 0, BUF);
                 strcpy(buffer, "ERR!");
                 send(new_socket, buffer, strlen(buffer), 0);
+                sleep(1);
             }
+            tedad++;
 
         }
-    */
+
         while (true)
         {
             memset(&buffer, 0, BUF);

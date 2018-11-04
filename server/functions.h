@@ -17,10 +17,6 @@
 #include <time.h>
 #include <pthread.h>
 #include <ldap.h>
-#include <ldap_cdefs.h>
-#include <ldap_features.h>
-#include <ldap_schema.h>
-#include <ldap_utf8.h>
 #include <ldif.h>
 
 #define BUF 1024
@@ -28,11 +24,111 @@
 #define LDAP_URI "ldap://ldap.technikum-wien.at:389"
 #define SEARCHBASE "dc=technikum-wien,dc=at"
 #define SCOPE LDAP_SCOPE_SUBTREE
-#define FILTER "(uid=if16b086)"
-#define BIND_USER ""	/* anonymous bind with user and pw empty */
-#define BIND_PW ""
-
 using namespace std;
+
+int ldap(string user, string pwd)
+{
+    LDAP *ld;			/* LDAP resource handle */
+    LDAPMessage *result, *e;	/* LDAP result handle */
+    BerElement *ber;		/* array of attributes */
+    char *attribute;
+    BerValue **vals;
+
+    char BIND_USER[64];
+    sprintf(BIND_USER, "uid=%s,ou=People,%s", user.c_str(), SEARCHBASE);
+
+    BerValue *servercredp;
+    BerValue cred;
+    cred.bv_val = (char *)pwd.c_str();
+    cred.bv_len=strlen(pwd.c_str());
+    int i,rc=0;
+
+    const char *attribs[] = { "uid", "cn", NULL };		/* attribute array for search */
+
+    int ldapversion = LDAP_VERSION3;
+
+    /* setup LDAP connection */
+    if (ldap_initialize(&ld,LDAP_URI) != LDAP_SUCCESS)
+    {
+        fprintf(stderr,"ldap_init failed");
+        return 0;
+    }
+
+    printf("connected to LDAP server %s\n",LDAP_URI);
+
+    if ((rc = ldap_set_option(ld, LDAP_OPT_PROTOCOL_VERSION, &ldapversion)) != LDAP_SUCCESS)
+    {
+        fprintf(stderr, "ldap_set_option(PROTOCOL_VERSION): %s\n", ldap_err2string(rc));
+        ldap_unbind_ext_s(ld, NULL, NULL);
+        return 0;
+    }
+    if ((rc = ldap_start_tls_s(ld, NULL, NULL)) != LDAP_SUCCESS)
+    {
+        fprintf(stderr, "ldap_start_tls_s(): %s\n", ldap_err2string(rc));
+        ldap_unbind_ext_s(ld, NULL, NULL);
+        return 0;
+    }
+
+    /* anonymous bind */
+    cout <<  "USER" << user << endl;
+    rc = ldap_sasl_bind_s(ld,BIND_USER,LDAP_SASL_SIMPLE,&cred,NULL,NULL,&servercredp);
+
+    if (rc != LDAP_SUCCESS)
+    {
+        cout << user << endl;
+        fprintf(stderr,"LDAP bind error: %s\n",ldap_err2string(rc));
+        ldap_unbind_ext_s(ld, NULL, NULL);
+        return 0;
+    }
+    else
+    {
+        printf("bind successful\n");
+    }
+
+    /* perform ldap search */
+    rc = ldap_search_ext_s(ld, SEARCHBASE, SCOPE, "(uid=if16b086)", (char **)attribs, 0, NULL, NULL, NULL, 500, &result);
+
+    if (rc != LDAP_SUCCESS)
+    {
+        fprintf(stderr,"LDAP search error: %s\n",ldap_err2string(rc));
+        ldap_unbind_ext_s(ld, NULL, NULL);
+        return 0;
+    }
+
+    printf("Total results: %d\n", ldap_count_entries(ld, result));
+
+    for (e = ldap_first_entry(ld, result); e != NULL; e = ldap_next_entry(ld,e))
+    {
+        printf("DN: %s\n", ldap_get_dn(ld,e));
+
+        /* Now print the attributes and values of each found entry */
+
+        for (attribute = ldap_first_attribute(ld,e,&ber); attribute!=NULL; attribute = ldap_next_attribute(ld,e,ber))
+        {
+            if ((vals=ldap_get_values_len(ld,e,attribute)) != NULL)
+            {
+                for (i=0;i < ldap_count_values_len(vals);i++)
+                {
+                    printf("\t%s: %s\n",attribute,vals[i]->bv_val);
+                }
+                ldap_value_free_len(vals);
+            }
+            /* free memory used to store the attribute */
+            ldap_memfree(attribute);
+        }
+        /* free memory used to store the value structure */
+        if (ber != NULL) ber_free(ber,0);
+
+        printf("\n");
+    }
+
+    /* free memory used for result */
+    ldap_msgfree(result);
+    printf("LDAP search suceeded\n");
+
+    ldap_unbind_ext_s(ld, NULL, NULL);
+    return 1;
+}
 
 
 // GET THE MESSAGE FROM THE CLIENT AND SAVE IT INTO NEW ORDNER AND CREATE A EMAIL FILE FOR EACH MAIL
@@ -49,7 +145,7 @@ void Save(string sname, char message[BUF])
         string email = "Email";
 
         num = to_string(emailnum);
-        Filename.append("../../Mails/" + sname);
+        Filename.append("../Mails/" + sname);
 
         folder = Filename;
         struct stat st;
@@ -102,7 +198,7 @@ string getEmpf(char buffer[BUF])
 int CountEmails(string name)
 {
     int countemail = 0;
-    string path = "../../Mails/";
+    string path = "../Mails/";
     string username = name;
     string message_read;
     string output;
@@ -135,7 +231,7 @@ string List(string name)
 {
     int countemail;
     string emptymail = "This User has no Email No Email\n";
-    string path = "../../Mails/";
+    string path = "../Mails/";
     string username = name;
     string message_read;
     string output;
@@ -163,7 +259,7 @@ string List(string name)
         string num = to_string(emailnum);
 
         Filename.append(path + username + "/" + "Email" + num + ".txt");
-        cout << "Filename" << Filename << endl;
+        cout << "Filename:" << Filename << endl;
         File.open(Filename);
         cout << "Ok" << endl;
 
@@ -214,7 +310,7 @@ string read(string name, string emailnum)
 
 
     num = emailnum;
-    Filename.append("../../Mails/" + name);
+    Filename.append("../Mails/" + name);
 
     folder = Filename;
     struct stat st;
@@ -262,7 +358,7 @@ string del(string name, string emailnum)
     string::size_type sz;
     int mailnum = stoi(emailnum, &sz);
 
-    Filename.append("../../Mails/" + name);
+    Filename.append("../Mails/" + name);
 
     folder = Filename;
     num = emailnum;
@@ -284,10 +380,10 @@ string del(string name, string emailnum)
         for (int i = mailnum; i <= countemails; ++i )
         {
             string number = to_string(i + 1);
-            string File = "../../Mails/" + name + "/Email" + number + ".txt";
+            string File = "../Mails/" + name + "/Email" + number + ".txt";
 
             string newnum = to_string(i);
-            string newfile = "../../Mails/" + name + "/Email" + newnum + ".txt";
+            string newfile = "../Mails/" + name + "/Email" + newnum + ".txt";
 
             int newname = rename(File.c_str(), newfile.c_str());
             if(rename == 0)
