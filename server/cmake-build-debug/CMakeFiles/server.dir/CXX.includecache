@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/sina/client-server/server/functions.h
+/home/alirez/Desktop/VRTS/server/functions.h
 sys/types.h
 -
 sys/socket.h
@@ -41,8 +41,18 @@ pthread.h
 -
 ldap.h
 -
+ldap_cdefs.h
+-
+ldap_features.h
+-
+ldap_schema.h
+-
+ldap_utf8.h
+-
+ldif.h
+-
 
-/home/sina/client-server/server/main.cpp
+/home/alirez/Desktop/VRTS/server/main.cpp
 functions.h
-/home/sina/client-server/server/functions.h
+/home/alirez/Desktop/VRTS/server/functions.h
 

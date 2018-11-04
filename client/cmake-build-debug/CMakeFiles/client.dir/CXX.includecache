@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/sina/client-server/client/header.h
+/home/alirez/Desktop/VRTS/client/header.h
 sys/types.h
 -
 sys/socket.h
@@ -36,7 +36,7 @@ thread
 cstdio
 -
 
-/home/sina/client-server/client/main.cpp
+/home/alirez/Desktop/VRTS/client/main.cpp
 header.h
-/home/sina/client-server/client/header.h
+/home/alirez/Desktop/VRTS/client/header.h
 

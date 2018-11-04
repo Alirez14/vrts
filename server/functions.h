@@ -17,6 +17,11 @@
 #include <time.h>
 #include <pthread.h>
 #include <ldap.h>
+#include <ldap_cdefs.h>
+#include <ldap_features.h>
+#include <ldap_schema.h>
+#include <ldap_utf8.h>
+#include <ldif.h>
 
 #define BUF 1024
 #define PORT 6543

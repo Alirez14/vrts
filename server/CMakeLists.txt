@@ -1,6 +1,10 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.12)
 project(server)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(server main.cpp functions.h)
+include_directories(.)
+
+add_executable(server
+        functions.h
+        main.cpp)
