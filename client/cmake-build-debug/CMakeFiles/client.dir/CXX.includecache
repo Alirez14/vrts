@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/sina/client-server/server/functions.h
+/home/sina/client-server/client/header.h
 sys/types.h
 -
 sys/socket.h
@@ -19,34 +19,24 @@ unistd.h
 -
 stdlib.h
 -
-sstream
--
 stdio.h
 -
 string.h
 -
-iostream
--
-fstream
--
-sys/stat.h
--
-dirent.h
--
 string
 -
-time.h
+sstream
 -
-pthread.h
+iostream
 -
-ldap.h
+vector
 -
-ldif.h
+thread
 -
-signal.h
+cstdio
 -
 
-/home/sina/client-server/server/main.cpp
-functions.h
-/home/sina/client-server/server/functions.h
+/home/sina/client-server/client/main.cpp
+header.h
+/home/sina/client-server/client/header.h
 

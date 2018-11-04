@@ -18,6 +18,7 @@
 #include <pthread.h>
 #include <ldap.h>
 #include <ldif.h>
+#include <signal.h>
 
 #define BUF 1024
 #define PORT 6543
