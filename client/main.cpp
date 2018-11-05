@@ -2,7 +2,7 @@
 #include "header.h"
 
 #define BUF 1024
-#define PORT 6543
+
 
 
 int main (int argc, char **argv)
@@ -12,10 +12,18 @@ int main (int argc, char **argv)
     string sender, subject, to, message;
     struct sockaddr_in address;
     ssize_t size;
-    argc=2;
-    argv[0]="./client";
-    argv[1]="localhost";
 
+    string port = argv[2];
+    stringstream str;
+    str << port;
+    int PORT;
+    str >> PORT;
+
+    if((argc<3 )|| (port=="")){
+    	cout << "./client enter host enter PORT"<<endl;
+    }
+
+else{
     string ldapu;
     string password;
 
@@ -282,4 +290,5 @@ int main (int argc, char **argv)
     while (strcmp(buffer, "QUIT\n") != 0);
     close (create_socket);
     return EXIT_SUCCESS;
+}
 }

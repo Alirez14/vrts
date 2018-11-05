@@ -21,7 +21,7 @@
 #include <signal.h>
 
 #define BUF 1024
-#define PORT 6543
+
 #define LDAP_URI "ldap://ldap.technikum-wien.at:389"
 #define SEARCHBASE "dc=technikum-wien,dc=at"
 #define SCOPE LDAP_SCOPE_SUBTREE

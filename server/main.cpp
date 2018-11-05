@@ -2,12 +2,25 @@
 
 #include "functions.h"
 #define BUF 1024
-#define PORT 6543
+
 
 using namespace std;
 
-int main()
+int main(int argc, char const *argv[])
 {
+	    if(argc<2 ){
+    	cout << "./main  enter PORT"<<endl;
+    }
+        else{
+    string port = argv[1];
+    stringstream str;
+    str << port;
+    int PORT;
+    str >> PORT;
+
+
+
+
     char message[1000];
     string _empty = "";
     int create_socket, new_socket, pid;
@@ -309,4 +322,5 @@ int main()
     }
     close (create_socket);
     return EXIT_SUCCESS;
+}
 }

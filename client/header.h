@@ -21,21 +21,20 @@ using namespace std;
 //SEND EMAIL
 string Send(string name)
 {
-    string sender, to, subject;
+    string  to, subject;
 
     //VECTOR REMALOC THE SIZE
     vector<string> mail[100];
     string message;
 
-    cout << "FROM: ";
-    cin >> sender;
+
     cout << "TO: ";
     cin >> to;
     cout << "Subject: ";
     cin >> subject;
     cout << "Message:" << endl;
 
-    mail->push_back(sender + "\n");
+    mail->push_back(name + "\n");
     mail->push_back(to + "\n");
     mail->push_back(subject + "\n");
 
