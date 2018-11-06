@@ -88,7 +88,7 @@ else{
                 cout << buffer;
             }
 
-            cin >> password;
+            cin>>password;
             strcpy(buffer, password.c_str());
             send(create_socket, buffer, strlen(buffer), 0);
             strcpy(buffer, "----------------------------\n");

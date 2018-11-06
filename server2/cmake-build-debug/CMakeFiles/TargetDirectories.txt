@@ -1,0 +1,3 @@
+/home/alirez/Desktop/VRTS/server2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/alirez/Desktop/VRTS/server2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/alirez/Desktop/VRTS/server2/cmake-build-debug/CMakeFiles/server2.dir
